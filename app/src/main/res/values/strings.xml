@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Counter2Magic</string>
+    <string name="widget_description">Shows your upcoming event countdowns</string>
 </resources>
