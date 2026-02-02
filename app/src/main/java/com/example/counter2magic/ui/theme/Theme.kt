@@ -1,6 +1,5 @@
 package com.example.counter2magic.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -12,32 +11,41 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = Secondary,
+    onPrimary = BackgroundDark,
+    primaryContainer = PrimaryDark,
+    onPrimaryContainer = OnSurfaceDark,
+    secondary = SecondaryLight,
+    onSecondary = BackgroundDark,
+    background = BackgroundDark,
+    onBackground = OnSurfaceDark,
+    surface = SurfaceDark,
+    onSurface = OnSurfaceDark,
+    surfaceVariant = CardDark,
+    onSurfaceVariant = TextSecondaryDark,
+    outline = TextSecondaryDark
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    primary = Primary,
+    onPrimary = BackgroundLight,
+    primaryContainer = PrimaryLight,
+    onPrimaryContainer = OnSurfaceLight,
+    secondary = Secondary,
+    onSecondary = BackgroundLight,
+    background = BackgroundLight,
+    onBackground = OnSurfaceLight,
+    surface = SurfaceLight,
+    onSurface = OnSurfaceLight,
+    surfaceVariant = CardLight,
+    onSurfaceVariant = TextSecondaryLight,
+    outline = TextSecondaryLight
 )
 
 @Composable
 fun Counter2MagicTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false, // Disabled for consistent minimal look
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -45,7 +53,6 @@ fun Counter2MagicTheme(
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
