@@ -6,6 +6,7 @@ import com.example.counter2magic.data.repository.EventRepository
 import com.example.counter2magic.domain.formatter.AdaptiveTimeFormatter
 import com.example.counter2magic.domain.formatter.FormattedTime
 import com.example.counter2magic.domain.model.CountdownEvent
+import com.example.counter2magic.domain.model.TimeRemaining
 import com.example.counter2magic.domain.usecase.CalculateTimeRemainingUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -54,7 +55,7 @@ class HomeViewModel @Inject constructor(
         val eventsWithTime = events.map { event ->
             val timeRemaining = calculateTimeRemaining(event, now)
             val formattedTime = timeFormatter.format(timeRemaining)
-            EventWithFormattedTime(event, formattedTime, timeRemaining.isPast)
+            EventWithFormattedTime(event, formattedTime, timeRemaining)
         }
         _uiState.value = _uiState.value.copy(
             events = eventsWithTime,
@@ -71,5 +72,5 @@ data class HomeUiState(
 data class EventWithFormattedTime(
     val event: CountdownEvent,
     val formattedTime: FormattedTime,
-    val isPast: Boolean
+    val timeRemaining: TimeRemaining
 )
