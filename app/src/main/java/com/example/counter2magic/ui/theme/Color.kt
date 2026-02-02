@@ -34,3 +34,11 @@ val CardDark = Color(0xFF2D3748)
 // Countdown number accent
 val CountdownAccent = Color(0xFF2B6CB0)
 val CountdownAccentDark = Color(0xFF63B3ED)
+
+// Urgency colors
+val UrgentRed = Color(0xFFE53E3E)
+val UrgentRedDark = Color(0xFFFC8181)
+val WarningAmber = Color(0xFFD69E2E)
+val WarningAmberDark = Color(0xFFF6E05E)
+val PastMuted = Color(0xFF9CA3AF)
+val UpcomingMuted = Color(0xFF718096)
