@@ -53,7 +53,7 @@ class AdaptiveTimeFormatter @Inject constructor() {
                     secondaryUnit = if (remainingDays == 1L) "day" else "days"
                 )
             }
-            else -> {
+            timeRemaining.months <= 24 -> {
                 val months = timeRemaining.months
                 val remainingDays = timeRemaining.days % 30
                 FormattedTime(
@@ -61,6 +61,16 @@ class AdaptiveTimeFormatter @Inject constructor() {
                     primaryUnit = if (months == 1L) "month" else "months",
                     secondaryValue = remainingDays.toString(),
                     secondaryUnit = if (remainingDays == 1L) "day" else "days"
+                )
+            }
+            else -> {
+                val years = timeRemaining.years
+                val remainingMonths = timeRemaining.months % 12
+                FormattedTime(
+                    primaryValue = "$prefix$years",
+                    primaryUnit = if (years == 1L) "year" else "years",
+                    secondaryValue = remainingMonths.toString(),
+                    secondaryUnit = if (remainingMonths == 1L) "month" else "months"
                 )
             }
         }
@@ -75,7 +85,8 @@ class AdaptiveTimeFormatter @Inject constructor() {
             timeRemaining.absoluteSeconds < 86400 -> "${prefix}${timeRemaining.hours}h ${timeRemaining.minutes}m"
             timeRemaining.days < 7 -> "${prefix}${timeRemaining.days}d ${timeRemaining.hours}h"
             timeRemaining.days < 30 -> "${prefix}${timeRemaining.weeks}w ${timeRemaining.days % 7}d"
-            else -> "${prefix}${timeRemaining.months}mo ${timeRemaining.days % 30}d"
+            timeRemaining.months <= 24 -> "${prefix}${timeRemaining.months}mo ${timeRemaining.days % 30}d"
+            else -> "${prefix}${timeRemaining.years}y ${timeRemaining.months % 12}mo"
         }
     }
 }

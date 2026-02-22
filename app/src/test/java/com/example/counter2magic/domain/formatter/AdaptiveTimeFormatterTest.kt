@@ -136,4 +136,90 @@ class AdaptiveTimeFormatterTest {
 
         assertEquals("-1h 0m", result)
     }
+
+    @Test
+    fun `format months when 24 months or less`() {
+        val timeRemaining = TimeRemaining.fromSeconds(24 * 30 * 86400L) // 24 months (720 days)
+        val result = formatter.format(timeRemaining)
+
+        assertEquals("24", result.primaryValue)
+        assertEquals("months", result.primaryUnit)
+    }
+
+    @Test
+    fun `format years and months when more than 24 months`() {
+        val timeRemaining = TimeRemaining.fromSeconds(3 * 365 * 86400L) // 3 years
+        val result = formatter.format(timeRemaining)
+
+        assertEquals("3", result.primaryValue)
+        assertEquals("years", result.primaryUnit)
+        assertEquals("0", result.secondaryValue)
+        assertEquals("months", result.secondaryUnit)
+    }
+
+    @Test
+    fun `format singular year`() {
+        val timeRemaining = TimeRemaining.fromSeconds(365 * 86400L + 60 * 86400L) // 1 year 2 months (425 days)
+        val result = formatter.format(timeRemaining)
+
+        assertEquals("1", result.primaryValue)
+        assertEquals("year", result.primaryUnit)
+        assertEquals("2", result.secondaryValue)
+        assertEquals("months", result.secondaryUnit)
+    }
+
+    @Test
+    fun `format years with singular remaining month`() {
+        val timeRemaining = TimeRemaining.fromSeconds(365 * 86400L + 30 * 86400L) // 1 year 1 month
+        val result = formatter.format(timeRemaining)
+
+        assertEquals("1", result.primaryValue)
+        assertEquals("year", result.primaryUnit)
+        assertEquals("1", result.secondaryValue)
+        assertEquals("month", result.secondaryUnit)
+    }
+
+    @Test
+    fun `format 2 years 6 months`() {
+        val timeRemaining = TimeRemaining.fromSeconds((2 * 365 + 6 * 30) * 86400L) // 2 years 6 months
+        val result = formatter.format(timeRemaining)
+
+        assertEquals("2", result.primaryValue)
+        assertEquals("years", result.primaryUnit)
+        assertEquals("6", result.secondaryValue)
+        assertEquals("months", result.secondaryUnit)
+    }
+
+    @Test
+    fun `formatCompact returns correct format for months within 24 months`() {
+        val timeRemaining = TimeRemaining.fromSeconds(18 * 30 * 86400L) // 18 months
+        val result = formatter.formatCompact(timeRemaining)
+
+        assertEquals("18mo 0d", result)
+    }
+
+    @Test
+    fun `formatCompact returns correct format for years`() {
+        val timeRemaining = TimeRemaining.fromSeconds(3 * 365 * 86400L) // 3 years
+        val result = formatter.formatCompact(timeRemaining)
+
+        assertEquals("3y 0mo", result)
+    }
+
+    @Test
+    fun `formatCompact returns correct format for years with months`() {
+        val timeRemaining = TimeRemaining.fromSeconds((2 * 365 + 6 * 30) * 86400L) // 2 years 6 months
+        val result = formatter.formatCompact(timeRemaining)
+
+        assertEquals("2y 6mo", result)
+    }
+
+    @Test
+    fun `format past years with negative prefix`() {
+        val timeRemaining = TimeRemaining.fromSeconds(-3 * 365 * 86400L) // 3 years ago
+        val result = formatter.format(timeRemaining)
+
+        assertEquals("-3", result.primaryValue)
+        assertEquals("years", result.primaryUnit)
+    }
 }

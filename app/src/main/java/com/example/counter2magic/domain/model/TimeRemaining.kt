@@ -12,6 +12,7 @@ data class TimeRemaining(
     val days: Long = absoluteSeconds / 86400
     val weeks: Long = days / 7
     val months: Long = days / 30
+    val years: Long = days / 365
 
     companion object {
         fun fromSeconds(seconds: Long) = TimeRemaining(seconds)

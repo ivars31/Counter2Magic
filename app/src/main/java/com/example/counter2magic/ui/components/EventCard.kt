@@ -109,52 +109,62 @@ fun EventCard(
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
         shape = RoundedCornerShape(12.dp)
     ) {
-        Column(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(20.dp)
+                .padding(20.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            // Event title with urgency dot and calendar icon
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                UrgencyDot(urgency = urgency)
-                Spacer(modifier = Modifier.width(8.dp))
-                if (event.isFromCalendar) {
-                    Icon(
-                        imageVector = Icons.Default.CalendarMonth,
-                        contentDescription = "From calendar",
-                        modifier = Modifier.size(16.dp),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Spacer(modifier = Modifier.width(6.dp))
-                }
-                Text(
-                    text = event.title,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-
-            Spacer(modifier = Modifier.height(4.dp))
-
-            // Target date
-            Text(
-                text = dateFormatter.format(event.targetDateTime),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Countdown display with urgency color
+            // Left side: Countdown display with urgency color
             CountdownDisplay(
                 formattedTime = formattedTime,
                 size = CountdownSize.MEDIUM,
                 accentColorOverride = urgencyColor
             )
+
+            Spacer(modifier = Modifier.width(20.dp))
+
+            // Right side: Event details
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                // Event title with urgency dot and calendar icon
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    UrgencyDot(urgency = urgency)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    if (event.isFromCalendar) {
+                        Icon(
+                            imageVector = Icons.Default.CalendarMonth,
+                            contentDescription = "From calendar",
+                            modifier = Modifier.size(18.dp),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                // Event title - more prominent
+                Text(
+                    text = event.title,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                // Target date
+                Text(
+                    text = dateFormatter.format(event.targetDateTime),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
     }
 }
