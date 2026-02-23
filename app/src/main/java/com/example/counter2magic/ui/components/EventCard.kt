@@ -115,20 +115,11 @@ fun EventCard(
                 .padding(20.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Left side: Countdown display with urgency color
-            CountdownDisplay(
-                formattedTime = formattedTime,
-                size = CountdownSize.MEDIUM,
-                accentColorOverride = urgencyColor
-            )
-
-            Spacer(modifier = Modifier.width(20.dp))
-
-            // Right side: Event details
+            // Left side: Event details
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-                // Event title with urgency dot and calendar icon
+                // Event title with urgency dot and calendar icon on the same line
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -143,26 +134,34 @@ fun EventCard(
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                     }
+                    Text(
+                        text = event.title,
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
                 }
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                // Event title - more prominent
-                Text(
-                    text = event.title,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-
-                Spacer(modifier = Modifier.height(4.dp))
 
                 // Target date
                 Text(
                     text = dateFormatter.format(event.targetDateTime),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+
+            Spacer(modifier = Modifier.width(16.dp))
+
+            // Right side: Countdown display — fixed width so all rows are consistent
+            Box(
+                modifier = Modifier.width(140.dp),
+                contentAlignment = Alignment.CenterEnd
+            ) {
+                CountdownDisplay(
+                    formattedTime = formattedTime,
+                    size = CountdownSize.MEDIUM,
+                    accentColorOverride = urgencyColor
                 )
             }
         }
